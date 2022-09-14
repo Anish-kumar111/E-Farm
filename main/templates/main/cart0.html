@@ -1,0 +1,130 @@
+
+{% extends "main/layout.html" %}
+{% load static %}
+{% static "images" as baseUrl %}
+
+{% block content %}
+
+<div class="cart" >
+    <div class="container" style="padding-top:6% ;">
+        <div class="row">
+            <div class="col-sm-9 mt-5">
+                <h3 class="text-center">Your Cart</h3>
+                {% if cart_items %}
+                <div class="table-responsive">
+                    <table class="table table-light">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Specification</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Delivery Address</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for cart in cart_items %}
+                        <tr>
+                            <td>{{ cart.item.title }} <span class="badge badge-{{ cart.item.label_colour }}">{{ cart.item.labels }}</span></td>
+                            <td>{{ cart.item.description }}</td>
+                            <td>{{ cart.item.instructions }}</td>
+                            <td>{{ cart.item.price }}</td>
+                            <td>{{ cart.quantity }} </td>
+                            <td>{{ cart.addresses }} </td>
+                            <td><a href="/address-from-cart/{{ cart.id }}">
+                                <button class="btn btn-primary" style="background-color:#057027;border-color: #b9c1cc;                                ;"   id="rev-btn"  type="submit" value="submit" class="btn  btn-secondary">Update Delivery Details</button></a></td>
+                            <td><a class="btn btn-danger" href="{% url 'main:remove-from-cart' cart.id %}">Delete</a></td>
+                        </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <h4 class="text-center">Sorry, Your Cart is Empty....Please add Items!!!</h4>
+                {% endif %}
+            </div>
+            <div class="col-sm-3 mt-5 mb-3">
+                <div class="content-section">
+                    <h3 class="text-center">Order Summary</h3>
+                      <ul class="list-group">
+                        <li class="list-group-item list-group-item-light text-center text-dark">Total: {{ total }}</li>
+                        <li class="list-group-item list-group-item-light text-center text-dark">Number of Orders: {{ count }}</li>
+                        <!-- <li class="list-group-item list-group-item-light text-center text-dark">Total Pieces: {{ total_pieces }}</li> -->
+                        
+                        <li class="list-group-item list-group-item-light text-center text-dark"><a  class="btn btn-primary" style="background-color:#057027;border-color: #b9c1cc;                            ;"  href="{% url 'main:ordered' %}">Pay with cash</a></li>
+                        <li class="list-group-item list-group-item-light text-center"><a  class="btn btn-primary" style="background-color:#057027;border-color: #b9c1cc;                            ;"   href="/payment">Pay with card</a></li>
+                        <li class="list-group-item list-group-item-light text-center"><a  class="btn btn-primary" style="background-color:#057027;border-color: #b9c1cc;                            ;"   href="/">Continue Buying</a></li>
+
+                        
+                      </ul>
+                      <!-- <h3 class="text-center">Address</h3> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="col-sm-4 mx-auto ">
+    <div><h2 class="text-center">CART</h2></div>
+{% if ordertable  %}
+
+    
+    {% for order in ordertable %}
+        
+            <div class="row mt-2 bg-light text-dark">
+    <!-- <div class="col-1 " >
+        <img style="width:10px;height:10px; margin-left:-8px;" class="mt-3" src="{{order.itms.item_vegornonveg.image.url}}" alt="Card image cap">
+    </div> -->
+    <!-- <div class="col-5 mt-2 p-0" style=" font-size:14px; ">{{order.title}}</div>
+    <div class="col-3" style="padding: 0px 0px 10px 0px;" >
+        <div class="row w-100 mt-2" style="margin-left:0px;">
+            <div class="col-3 border border-right-0" style="padding-left:0px;">
+                <form action="/cart" method="post">{% csrf_token%}
+                    <input type="hidden"  name="quantity_minus" value="{{order.pk}}">
+                    <button type="submit"  class="btn btn-link "  style="margin-left:0px;padding:0px;width:20px;height:20px;background:none; ">
+                        <img name="minus" style="margin:0px; width:20px; height:20px;" src="{% static 'images/icons/minus.svg'%}">
+                    </button>
+                </form>
+            </div>
+            <div class="col-3  mt-1" style="margin-left:0%; padding-left:9px">{{order.quantity}}</div>
+            <div class="col-3 border border-left-0" style="padding-left:2px;">
+                <form action="/cart/" method="post">{% csrf_token%}
+                    <input type="hidden" name="quantity_plus" value="{{order.pk}}">
+                    <button type="submit" name="" class="btn btn-link border border-0" value="{{order.pk}}" style="padding:0px; width:25px;height:25px;background: none;">
+                        <img name="add" class="" style="margin:0px; width:25px; height:25px;" src="{% static 'images/icons/plus.svg'%}">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-2 mt-2 p-1 " style="width:20px;"><i class="fa fa-rupee" style="font-size:11px;display:inline;"></i> {{order.order_price}}</div>
+    <form action="/cart" class="col-1 p-0" method="post">{% csrf_token %}
+        <input type="hidden"  name="deleteitem" value="{{order.pk}}">
+        <button class="btn btn-link p-1" type="submit" style="background:none;" ><svg class=" mt-1"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path d="M12 38c0 2.21 1.79 4 4 4h16c2.21 0 4-1.79 4-4V14H12v24zM38 8h-7l-2-2H19l-2 2h-7v4h28V8z"/></svg></button>
+    </form>
+
+</div>
+        
+
+{% endfor %}
+
+<div class="row pl-2 mt-3">
+    <div class="col-9"><h4>Grand Total</h4></div>
+    <div class="col-3 text-left p-0"><h4><i class="fa fa-rupee" style="font-size:15px"></i> {{grandtotal}}</h4></div>
+</div>
+        <a class="btn btn-primary mx-auto w-100" href="/order/customer_payment/">
+            <h4 style="color:#fff;" class="mt-2">CONFIRM ORDER</h4>
+        </a>
+
+
+{% else %}
+<div class="container mx-auto text-center">
+    <h6 class="">cart empty</h6>
+</div>
+{% endif %}
+</div> -->
+
+
+{% endblock content %}

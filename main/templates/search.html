@@ -1,0 +1,34 @@
+{% extends "main/layout.html" %}
+{% load static %}
+{% block content %}
+<main class="container my-4">
+	<div style="padding-top:12% ;" class="container"></div>
+	<!-- Featured Products -->
+	<h3 class="my-4 border-bottom pb-1"><span class="text-muted">Search result for</span> {{request.GET.q}}</h3>
+	<div class="row">
+    {% for item in data %}
+	<div class="row">
+              
+		<div style="padding: 0 30px 0;" class="col">
+		  
+			<div class="card mb-3 " style="height: fit-content; overflow: auto;">
+			  <img src="{{ item.image.url }}" style="height: 250px;">
+				<div class="card-body text-center">      
+				  <button class="btn btn-warning">By:{{ item.sold_by }}</button>         
+				  <h5 class="text-center"><a href="{% url 'main:product' item.slug %}">{{ item.title }} </a><span class="badge badge-{{ item.label_colour }}"></span></h5>
+				  <p class="text-center">{{ item.description }}</p>
+				  <h5 class="text-center">Price ₹{{ item.price }} per {{ item.labels }}</h5>
+				  
+		  
+				  <a href="{% url 'main:product' item.slug %}"  style="background-color:#057027;border-color: #b9c1cc;                          ;"  class="btn btn-success">View Details</a>
+				 
+				
+
+				</div>
+			</div>
+		</div>  
+	</div> 
+    {% endfor %}
+	</div>
+</main>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% load get_group %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- <script src="{% static 'main/navBar.js' %}"></script> -->
+    <link rel="stylesheet" href="{% static 'main/navBar.css' %}">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <title></title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="main_nav">
+      
+      <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">  Ready Made goods  </a>
+          
+          <ul class="dropdown-menu">
+            {% for s in supcategory %}  
+          <li><a class="dropdown-item" href="{% url 'main:supcategory' s.slug %}">{{s.name}}</a>
+            <ul class="submenu dropdown-menu">
+              {% for c in s.sups.all %}
+               <li><a class="dropdown-item" href="{% url 'main:category' c.slug %}"> {{c.name}}</a>
+                
+                <ul class="submenu dropdown-menu">
+                  {% for z in c.subs.all %} 
+                  <li><a class="dropdown-item" href="{% url 'main:subcategory' z.slug %}"> {{z.title}}</a></li>
+                  
+                  
+                  {% endfor %}
+                </ul>
+                
+            </li>
+            {% endfor %}
+
+      </ul>
+      </li>
+      {% endfor %}
+    </ul>
+  </li>
+</ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li><a href="{% url 'main:home' %}" class="mr-2 text-light">Home</a></li>
+    {% if user.is_authenticated %}
+        {% if request.user|has_group:"seller" %} 
+            <li><a href="{% url 'main:admin_dashboard' %}" class="mr-2 text-light">DashBoard</a></li>
+            <li>
+                <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="mr-2">Logout</button>
+                </form>
+            </li> 
+        {% else %}
+            <li><a href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
+            <li><a href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li>
+            <li>
+                <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="mr-2">Logout</button>
+                </form>
+            </li>
+        {% endif %}
+    {% else %}
+        <li><a href="{% url 'accounts:login' %}" class="mr-2 text-light">Login</a></li>
+        <li><a href="{% url 'accounts:signup' %}" class="mr-2 text-light">SignUp</a></li>
+    {% endif %} 
+          </ul>
+
+      
+      </div> <!-- navbar-collapse.// -->
+      <!-- <div class="collapse navbar-collapse" id="navbarNav">
+        <form  class="form-inline my-2 my-lg-0" action="/search" >{% csrf_token %}
+          <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="search" />
+          <div class="input-group-append">
+            <button class="btn btn-dark" type="submit" id="button-addon2">Search</button>
+          </div> -->
+        </div>
+      </nav>
+      {% block content %}{% endblock %}
+    <!-- Optional JavaScript; choose one of the two! -->
+  
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="http://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

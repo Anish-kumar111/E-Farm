@@ -1,0 +1,261 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Admin Dashboard2</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'main/sb-admin-2.min.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'main:admin_dashboard' %}">
+        <div class="sidebar-brand-text mx-3">Welcome</div>
+      </a>
+      <hr class="sidebar-divider my-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'main:admin_dashboard' %}">
+          <i class="fa fa-bandcamp"></i>
+          <span>Dashboard</span></a>
+      </li>
+      <hr class="sidebar-divider">
+      <div class="sidebar-heading">
+        Admin Interface
+      </div>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:item-create' %}">
+          <i class="fa fa-plus"></i>
+          <span>Add Products</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:item_list' %}">
+          <i class="fa fa-plus"></i>
+          <span>View Items</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:admin_view' %}">
+          <i class="fa fa-check"></i>
+          <span>Completed Orders</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:pending_orders' %}">
+          <i class="fa fa-bell"></i>
+          <span>Accepted Orders</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:accepted_orders' %}">
+        <i class="fa fa-check"></i>
+        <span>Ready Orders</span>
+        </a>
+    </li>
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:rejected_orders' %}">
+        <i class="fa fa-bell"></i>
+        <span>Rejected Orders</span>
+        </a>
+    </li>
+      <hr class="sidebar-divider">
+      <!-- <li class="nav-item">
+        <a class="nav-link">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Profile</span></a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:home' %}">
+          <i class="fa fa-home"></i>
+          <span>Home</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin">
+          <i class="fa fa-home"></i>
+          <span>Advance Panel</span></a>
+      </li>
+      <li class="nav-item ml-3 mb-3">
+        <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-light ">Logout</button>
+        </form>
+      </li>
+      <hr class="sidebar-divider d-none d-md-block">
+    </ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <h2 class="text-center">AdminPage</h3>
+        </nav>
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Earnings</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">₹ {{ total.profit }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Delivered</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ completed_total }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Pending Orders</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_total }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Ready Orders</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ready_total }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-4 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Rejected Orders</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ rejected_total }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Enquiry Sellers</div>
+          <!-- <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Sellers email:{{email}}</div> -->
+
+          <table class="table">
+            
+            <thead>
+              <tr>
+                <th>USERNAME</th>
+                <th>EMAIL</th>
+                
+              </tr>
+            </thead>
+            {% for seller in enq%}
+            <tbody>
+              <tr>
+                <td>{{seller.name}}</td>
+                <td>{{seller.email}}</td>
+            
+              </tr>
+             
+            </tbody>
+            {% endfor %}
+          </table>
+          <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Not Active Sellers</div>
+          <table class="table">
+            
+            <thead>
+              <tr>
+                <th>USERNAME</th>
+                <th>EMAIL</th>
+                <th>Activation Status</th>
+                
+              </tr>
+            </thead>
+            {% for seller in nonactive_sellers%}
+            <tbody>
+              <tr>
+                <td>{{seller.username}}</td>
+                <td>{{seller.email}}</td>
+                <td><button class=""><a href="/seller-update/{{seller.id}}">update</a></button></td>
+              </tr>
+             
+            </tbody>
+          {% endfor %}
+
+          </table>
+          
+
+          
+          <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Active Sellers</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>USERNAME</th>
+                <th>EMAIL</th>
+                <th>Activation Status</th>
+                
+              </tr>
+            </thead>
+            {% for seller in active_sellers%}
+            <tbody>
+              <tr>
+                <td>{{seller.username}}</td>
+                <td>{{seller.email}}</td>
+                <td><button><a href="/seller-update/{{seller.id}}">update</a></button></td>
+            
+              </tr>
+             
+            </tbody>
+            {% endfor %}
+          </table>
+          
+          
+         
+         
+</body>
+
+</html>

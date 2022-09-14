@@ -1,0 +1,157 @@
+{% load get_group %}
+{% load static %}
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="{% static 'main/styles.css' %}">
+      <title>eCanteen</title>
+  </head>
+    <link rel="stylesheet" href="{% static 'main/main.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'main/Home.css' %}s" media="screen">
+        <script class="u-script" type="text/javascript" src="{% static 'main/jquery.js' %}" defer=""></script>
+        <script id="crousal" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script class="u-script" type="text/javascript" src="{% static 'main/main.js' %}" defer=""></script>
+    
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+    
+    
+    <script type="application/ld+json">{
+	
+		"logo": "images/default-logo.png"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Home">
+    <meta property="og:type" content="website">
+  </head>
+  <body data-home-page="Home.html" data-home-page-title="Home" class="u-body"><header class="u-clearfix u-header u-header" id="sec-a4e8"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+       <li class="u-nav-item"> <h3 class="mb-2">eCanteen</h3></li>
+    <a href="#" class="u-image u-logo u-image-1">
+          <img src="static/images/Untitled.png" height="100" class="u-logo-image u-logo-image-1">
+        </a>
+        <nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
+          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
+            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+              <svg viewBox="0 0 24 24"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><symbol id="menu-hamburger" viewBox="0 0 16 16" style="width: 16px; height: 16px;"><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
+</symbol>
+</defs></svg>
+            </a>
+          </div>
+          <div class="u-nav-container">
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a href="{% url 'main:home' %}" class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" style="padding: 10px 20px;">Home</a>
+</li>{% if user.is_authenticated %}
+{% if request.user|has_group:"admin_owner" %} 
+<li class="u-nav-item"><a href="{% url 'main:admin_dashboard' %}" class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"  style="padding: 10px 20px;">Admin Dashboard</a>
+</li>
+<li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
+<li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li><li class="u-nav-item"> <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-light">Logout</button>
+</form>
+</li>
+{% else %}
+<li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'main:cart' %}" class="mr-2 text-light">My Cart🛒</a></li>
+<li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'main:order_details' %}" class="mr-2 text-light">Your Orders</a></li>
+<li class="u-nav-item">
+    <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+        {% csrf_token %}<a class="u-button-style u-nav-link"  class="mr-2 text-light">
+        <button type="submit" class="btn btn-light">Logout</button></a>
+    </form>
+</li>
+{% endif %}
+{% else %}
+<li class="u-nav-item"><a class="u-button-style u-nav-link"  href="{% url 'accounts:login' %}" class="mr-2 text-light">Login</a></li>
+<li class="u-nav-item"><a class="u-button-style u-nav-link"  href="{% url 'accounts:signup' %}" class="mr-2 text-light">SignUp</a></li>
+{% endif %}
+</ul>
+          </div>
+          <div class="u-nav-container-collapse">
+            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+              <div class="u-inner-container-layout u-sidenav-overflow">
+                <div class="u-menu-close"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'main:cart' %}">My Cart🛒</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="{% url 'main:order_details' %}">Your Orders</a>
+</li><li class="u-nav-item"> <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-light ">Logout</button>
+  
+</form>
+</li></ul>
+              </div>
+            </div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+          </div>
+        </nav>
+        <nav>{% for s in supcategory %}
+          <ul class="u-nav u-unstyled u-nav-1"><li>Fabric</li>
+            <ul>{% for c in s.sups.all %}
+              <li class="u-nav-item">{{c.name}}</li>
+              
+              <ul>{% for z in c.subs.all %}
+                <li class="u-nav-item">{{z.title}}</li></ul>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+            {% endfor %}
+          </ul>
+          
+        </nav>
+        <nav>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+        </nav>
+        <main role="main">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          
+      </main>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script>
+          $('.carousel').carousel();
+      </script>
+      </div></header>
+    <section class="u-clearfix u-grey-10 u-section-1" id="carousel_e33d">
+        {% block content %}{% endblock %}
+    </section>
+    
+    
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-a386"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Copyright © 2021</p>
+      </div></footer>
+    <section class="u-backlink u-clearfix u-grey-80">
+      <p class="u-text">
+        <span>Created by Team Vector</span>
+      </p>
+      <span></span>
+    </section>
+  </body>
+</html>

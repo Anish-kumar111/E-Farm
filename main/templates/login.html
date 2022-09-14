@@ -1,0 +1,71 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{% load static %}
+{% static "images" as baseUrl %}
+{% load sweetify %}
+{% sweetify %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>log in</title>
+    <!-- <link rel="stylesheet" href="{% static 'css/register_style.css'%}"> -->
+
+</head>
+<body >
+    
+
+
+    <div class="main">
+		<!-- Sing in  Form -->
+        <section >
+            <div style="padding-top:10% ;" class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        
+                        <a href="/accounts/signup/" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign in</h2>
+                        <form method="post" action="/accounts/login/" class="register-form" id="login-form">
+							{% csrf_token %}
+                            <div class="form-group">
+                                <label for="user_name"><img src="https://img.icons8.com/ios-glyphs/20/000000/user--v1.png"></label>
+                                <input type="text" name="username" id="user_name" placeholder="User Name"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><img src="https://img.icons8.com/material/16/000000/password--v3.png"></label>
+                                <input type="password" name="password" id="your_pass" placeholder="Password"/>
+                            </div>
+
+                            <div class="form-group form-button">
+                                {% csrf_token %}
+                                <input class="btn btn-primary" style="background-color:#057027;border-color: #b9c1cc;" type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            </div>
+                        </form>
+                        <div class="signin-image">
+                        
+                            <a href="{% url 'accounts:password_reset' %}" class="signup-image-link">Forgot password? click here</a>
+                        </div>
+<!--                        <div class="social-login">-->
+<!--                            <span class="social-label">Or login with</span>-->
+<!--                            <ul class="socials">-->
+<!--                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>-->
+<!--                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>-->
+<!--                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>  
+    <!-- <script src="{% static 'js/register_main.js'%}"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> -->
+{% load sweetify %}
+{% sweetify %}
+{% endblock content %}

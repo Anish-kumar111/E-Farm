@@ -1,0 +1,106 @@
+{% extends "main/layout.html" %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- owlCarousel -->
+<script id="crousal" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <title>Subcategories</title>
+</head>
+<body>
+  <div style="padding-top:12% ;" class="container"></div>
+    <section>
+
+      
+        <div class="container">
+          <h1 class="text-center text-dark">Our Product</h1><br>
+          <div class="row">
+            {% for s in category %}  
+            {% for z in s.subs.all %}
+            {% for item in z.subss.all %}
+                <div class="col-sm-4">
+                    <div class="card mb-3" style="height: fit-content; overflow: auto;">
+                      <img src="{{ item.image.url }}" style="height: 250px;">
+                        <div class="card-body text-center">      
+                          <button class="btn btn-warning">By:{{ item.sold_by }}</button>         
+                          <h5 class="text-center"><a href="{% url 'main:product' item.slug %}">{{ item.title }} </a><span class="badge badge-{{ item.label_colour }}"></span></h5>
+                          <p class="text-center">{{ item.description }}</p>
+                          <h5 class="text-center">Price ₹{{ item.price }} per {{ item.labels }}</h5>
+                          <a class="btn btn-primary" style="background-color:#057027;border-color: #b9c1cc;                          ;"  href="{% url 'main:product' item.slug %}" class="btn btn-success">View Details</a>
+                        </div>
+                    </div>
+                </div>            
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      <section>
+        <hr>
+        <div class="container">
+          <h3 class="text-center text-dark">Latest Products</h3><br>
+          
+            
+            <div id="owl-products" class="owl-carousel owl-theme">
+              {% for item in menu_items %}
+              <div class="row">
+              
+                <div style="padding: 0 30px 0;" class="col">
+                  
+                    <div class="card mb-3 " style="height: fit-content; overflow: auto;">
+                      <img src="{{ item.image.url }}" style="height: 250px;">
+                        <div class="card-body text-center">      
+                          <button class="btn btn-warning">By:{{ item.sold_by }}</button>         
+                          <h5 class="text-center"><a href="{% url 'main:product' item.slug %}">{{ item.title }} </a><span class="badge badge-{{ item.label_colour }}"></span></h5>
+                          <p class="text-center">{{ item.description }}</p>
+                          <h5 class="text-center">Price ₹{{ item.price }} per {{ item.labels }}</h5>
+                          
+                  
+                          <a href="{% url 'main:product' item.slug %}"  style="background-color:#057027;border-color: #b9c1cc;                          ;"  class="btn btn-success">View Details</a>
+                         
+                        
+
+                        </div>
+                    </div>
+                </div>  
+            </div>          
+            {% endfor %}
+          </div>
+        </div>
+        <script>
+          $(document).ready(function() {
+       
+        $("#owl-products").owlCarousel({
+       
+          lazyLoad:true,
+          items:4,
+          autoplay: true,
+          smartSpeed: 1500,
+          nav:false,
+          dots: false,
+          loop : true,
+           
+       
+            // "singleItem:true" is a shortcut for:
+            // items : 1, 
+            // itemsDesktop : false,
+            // itemsDesktopSmall : false,
+            // itemsTablet: false,
+            // itemsMobile : false
+       
+        });
+       
+      });
+        
+        </script>
+      </section>
+</body>
+</html>
+
+{% endblock content %}
