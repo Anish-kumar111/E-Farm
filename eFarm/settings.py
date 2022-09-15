@@ -9,10 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-# ...heroku import
 
-import django_on_heroku
-django_on_heroku.settings(locals())
 
 from pathlib import Path
 import os
@@ -165,4 +162,7 @@ SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert'
 USE_DJANGO_JQUERY = True
 
 
+# ...heroku import
 
+import django_on_heroku
+django_on_heroku.settings(locals())
