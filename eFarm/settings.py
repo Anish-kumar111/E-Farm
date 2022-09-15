@@ -102,12 +102,13 @@ WSGI_APPLICATION = 'eFarm.wsgi.application'
     
 #      }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'mydb.sqlite3'),
-    }
-}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'mydb.sqlite3'),
+#     }
+# }
 
 
 # Password validation
